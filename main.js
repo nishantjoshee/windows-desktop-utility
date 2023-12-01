@@ -1,8 +1,8 @@
 const { app, BrowserWindow } = require('electron');
 const dns = require('dns');
 const exec = require('child_process').exec;
-const {updateSystemInfo} = require('./updateSystemInfo');
-const  { handleConnectivity } = require('./handleConnectivity');
+const { updateSystemInfo } = require('./updateSystemInfo');
+const { handleConnectivity } = require('./handleConnectivity');
 
 let mainWindow;
 
@@ -21,11 +21,8 @@ function createWindow() {
         mainWindow = null;
     });
 
-    // Fetch system information and check internet status every second
-    setInterval(() => {
-        updateSystemInfo(mainWindow);
-        handleConnectivity(mainWindow);
-    }, 1000);
+    updateSystemInfo(mainWindow);
+    handleConnectivity(mainWindow);
 }
 
 app.on('ready', createWindow);
