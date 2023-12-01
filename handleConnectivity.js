@@ -12,7 +12,7 @@ function escapeHtml(text) {
 
 
 function handleConnectivity (mainWindow){
-    setTimeout(() => {
+    setInterval(() => {
         dns.resolve('www.google.com', function(err) {
             if(err) {
                 mainWindow.webContents.executeJavaScript(`document.getElementById('internetStatus').innerText = 'Disconnected';`);
