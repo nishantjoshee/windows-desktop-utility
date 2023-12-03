@@ -22,6 +22,9 @@ function updateSystemInfo(mainWindow) {
         if(freeMemory < 10) {
             mainWindow.webContents.executeJavaScript(`document.getElementById('freeMemory').innerHTML = '<button type="button" class="btn btn-outline-danger" style="width: 150px;"> ${freeMemory} % </button>';`);
         }
+        if(freeMemory > 30){
+            mainWindow.webContents.executeJavaScript(`document.getElementById('freeMemory').innerHTML = '<button type="button" class="btn btn-outline-primary" style="width: 150px;"> ${freeMemory} % </button>';`);
+        }
         mainWindow.webContents.executeJavaScript(`document.getElementById('platform').innerText = '${os.platform()}';`);
     }, 1000);
 
