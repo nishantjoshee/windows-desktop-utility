@@ -1,13 +1,7 @@
 const { exec } = require('child_process');
 const dns = require('dns');
-const  {ipcMain} = require('electron');
 
 let networkActionHistory = [];
-
-ipcMain.on('reset-network-action-history', (event, arg) => {
-    networkActionHistory = [];
-    
-});
 
 function escapeHtml(text) {
     return text
@@ -22,10 +16,12 @@ function escapeHtml(text) {
 function handleConnectivity (mainWindow){
     
     let isConnected = true;
+
     setInterval(() => {
         dns.resolve('www.google.com', function(err) {
+           
             if(err) {
-                mainWindow.webContents.executeJavaScript(`document.getElementById('internetStatus').innerText = 'Disconnected';`);
+                mainWindow.webContents.executeJavaScript(`document.getElementById('internetStatus').innerHTML = '<button type="button" class="btn btn-outline-danger" style="width: 200px;"> Disconnected </button> ';`);
                 exec('NETWORK_COMMAND', (err, stdout, stderr) => {
                     let message;
                     if(err) {
@@ -33,17 +29,18 @@ function handleConnectivity (mainWindow){
                     } else {
                         message = `Network cards restarted successfully at ${new Date().toLocaleString()}`;
                     }
-                    networkActionHistory.push(escapeHtml(message));
+                    networkActionHistory.push(`<p style="color: red;"> ${message} </p>`);
                     mainWindow.webContents.executeJavaScript(
                         `document.getElementById('networkRestartHistory').innerHTML = '${networkActionHistory.join('<br>')}';`
                     )
+                    
                     isConnected = false;
                     
                 })
             } else  {
                 if (!isConnected) {
                     message = `Network connection restored at ${new Date().toLocaleString()}`;
-                    networkActionHistory.push(escapeHtml(message));
+                    networkActionHistory.push(`<p style="color: green;"> ${message} </p>`);
                     mainWindow.webContents.executeJavaScript(
                         `document.getElementById('networkRestartHistory').innerHTML = '${networkActionHistory.join('<br>')}';`
                     )
@@ -51,7 +48,7 @@ function handleConnectivity (mainWindow){
                 }
             
                
-                mainWindow.webContents.executeJavaScript(`document.getElementById('internetStatus').innerText = 'Connected';`);
+                mainWindow.webContents.executeJavaScript(`document.getElementById('internetStatus').innerHTML = '<button type="button" class="btn btn-outline-success" style="width: 200px;"> Connected </button> ';`);
                
                
             }
