@@ -21,6 +21,7 @@ function handleConnectivity(mainWindow) {
                         restartInProgress = true;
                         const { stdout, stderr } = await exec('powershell -Command "Get-NetAdapter | Restart-NetAdapter"');
                         if (stderr) {
+                            console.log(stderr);
                             message = `Error restarting network cards at ${new Date().toLocaleString()}`;
                             networkActionHistory.push(`<p style="color: red;"> ${message} </p>`);
                         } else {
