@@ -54,7 +54,7 @@ function handleConnectivity(mainWindow) {
                 mainWindow.webContents.executeJavaScript(`document.getElementById('internetStatus').innerHTML = '<button type="button" class="btn btn-outline-success" style="width: 200px;"> Connected </button> ';`);
             }
         });
-    }, 20000);
+    }, 5000);
 }
 
 module.exports = { handleConnectivity };

@@ -1,6 +1,9 @@
 module.exports = {
   packagerConfig: {
     asar: true,
+    win32metadata: {
+      requestedExecutionLevel: 'requireAdministrator'
+    }
   },
   rebuildConfig: {},
   makers: [
