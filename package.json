@@ -4,20 +4,32 @@
   "description": "Desktop utility application for windows server",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "Nishant Joshi",
   "license": "ISC",
+  "build": {
+    "appId": "com.waterflow.desktoputility",
+    "productName": "WFT Desktop Utility",
+    "win": {
+      "requestedExecutionLevel": "requireAdministrator",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
   "devDependencies": {
-    "@electron-forge/cli": "^7.1.0",
-    "@electron-forge/maker-deb": "^7.1.0",
-    "@electron-forge/maker-rpm": "^7.1.0",
-    "@electron-forge/maker-squirrel": "^7.1.0",
-    "@electron-forge/maker-zip": "^7.1.0",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.1.0",
-    "electron": "27.1.2"
+    "electron": "27.1.2",
+    "electron-builder": "^24.9.1"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
