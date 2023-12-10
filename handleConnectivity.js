@@ -9,7 +9,7 @@ function handleConnectivity(mainWindow) {
   let isConnected = true;
 
   setInterval(async () => {
-    ping.sys.probe("www.google.com", async function (isAlive) {
+    ping.sys.probe("www.45645cnkogle.comm", async function (isAlive) {
       let message;
       if (!isAlive) {
         mainWindow.webContents.executeJavaScript(
@@ -21,11 +21,21 @@ function handleConnectivity(mainWindow) {
         if (!restartInProgress) {
           try {
             restartInProgress = true;
+
             const { stdout, stderr } = await exec(
-              'powershell -Command "Get-NetAdapter | Restart-NetAdapter"'
+              'powershell -Command "Get-NetAdapter | Restart-NetAdapter -Confirm:$false"'
+
             );
+        
+            // const { out, err } = await exec(
+            //   'powershell -Command "Get-NetAdapter | Disable-NetAdapter -Confirm:$false"'
+
+            // );
+            // const { stdout, stderr } = await exec(
+            //   'powershell -Command "Get-NetAdapter | Enable-NetAdapter -Confirm:$false"'
+
+            // );
             if (stderr) {
-              console.log(stderr);
               message = `Error restarting network cards at ${new Date().toLocaleString()}`;
               networkActionHistory.push(
                 `<p style="color: red;"> ${message} </p>`
@@ -42,9 +52,7 @@ function handleConnectivity(mainWindow) {
                 "<br>"
               )}';`
             );
-            await exec(
-              'powershell -Command "Get-NetAdapter | Enable-NetAdapter"'
-            );
+            
 
             isConnected = false;
           } catch (e) {
